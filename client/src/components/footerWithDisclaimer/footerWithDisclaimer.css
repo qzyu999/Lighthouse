@@ -1,0 +1,9 @@
+.disclaimer {
+    width: calc(100% - 0.65 * (100vw - 50px));
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    padding: 5px;
+    font-size: 11.5px;
+    background-color: #12101b;
+  }

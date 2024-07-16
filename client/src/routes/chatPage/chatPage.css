@@ -1,0 +1,116 @@
+.chatPage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: auto;
+  scrollbar-gutter: stable;
+  padding-bottom: 100px;
+}
+
+.wrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.chat {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 50px;
+
+  p,
+  li {
+    margin: 10px 0px;
+  }
+
+  .message {
+    max-width: 80%;
+    width: auto;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+  }
+
+  .message.bot {
+    align-self: flex-start;
+  }
+
+  .message.user {
+    background-color: #2c2937;
+    align-self: flex-end;
+  }
+
+  .newPromptContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+  }
+}
+
+.custom-code-block {
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+
+.custom-code-block-wrapper {
+  position: relative;
+}
+
+.copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: none;
+  transition: background-color 0.3s ease;
+}
+
+.custom-code-block-wrapper:hover .copy-button {
+  display: block;
+}
+
+.copy-button.copied {
+  background-color: #007bff;
+  color: white;
+}
+
+.user-message {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.scrollToBottomButton {
+  position: fixed;
+  bottom: 137px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px 11px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.scrollToBottomButton:hover {
+  background-color: #0056b3;
+}
