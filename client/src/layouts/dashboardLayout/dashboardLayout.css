@@ -123,16 +123,16 @@
     background: none;
 }
 
-.activity-btn.active::after {
+.activity-btn.active::before {
     content: '';
     position: absolute;
-    right: 0;
+    right: -4px;
     top: 50%;
     transform: translateY(-50%);
-    width: 2px;
-    height: 14px;
+    width: 3px;
+    height: 16px;
     background: #7c3aed;
-    border-radius: 2px 0 0 2px;
+    border-radius: 3px;
 }
 
 .activity-bar-spacer {
