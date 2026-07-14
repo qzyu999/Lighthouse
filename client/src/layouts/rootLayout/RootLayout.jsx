@@ -66,15 +66,18 @@ const RootLayout = () => {
       <div className="rootLayout">
         <header>
           <Link to="/" className="logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{color: '#7c3aed'}}>
-              <path d="M12 2L12 4"/>
-              <path d="M10 4h4l1 4h-6l1-4z"/>
-              <path d="M9 8h6v2H9z"/>
-              <path d="M9.5 10l-1.5 10h8l-1.5-10"/>
-              <path d="M7 20h10"/>
-              <path d="M12 10v10"/>
-              <path d="M5 6l2 1"/>
-              <path d="M19 6l-2 1"/>
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" style={{color: '#7c3aed'}}>
+              <path d="M16 4L16 6" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M14 6h4l1.2 4.5h-6.4L14 6z" strokeWidth="1.2" fill="none"/>
+              <rect x="13" y="10.5" width="6" height="2" rx="0.5" strokeWidth="1.2" fill="none"/>
+              <path d="M13.5 12.5l-1.5 12h8l-1.5-12" strokeWidth="1.2" fill="none"/>
+              <path d="M11 24.5h10" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M9 7.5l2.5 1" strokeWidth="1" strokeLinecap="round" opacity="0.7"/>
+              <path d="M23 7.5l-2.5 1" strokeWidth="1" strokeLinecap="round" opacity="0.7"/>
+              <path d="M6 14l1 2.5L6 19l-1-2.5z" fill="#7c3aed" stroke="none" opacity="0.8"/>
+              <path d="M6 14l2.5 1L6 19l-2.5-1z" fill="#7c3aed" stroke="none" opacity="0.4"/>
+              <path d="M26 12l0.7 1.8L26 15.5l-0.7-1.8z" fill="#7c3aed" stroke="none" opacity="0.8"/>
+              <path d="M26 12l1.8 0.7L26 15.5l-1.8-0.7z" fill="#7c3aed" stroke="none" opacity="0.4"/>
             </svg>
             <span>{import.meta.env.VITE_APP_NAME || 'Lighthouse'}</span>
           </Link>

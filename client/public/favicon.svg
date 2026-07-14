@@ -1,10 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 2L12 4"/>
-  <path d="M10 4h4l1 4h-6l1-4z"/>
-  <path d="M9 8h6v2H9z"/>
-  <path d="M9.5 10l-1.5 10h8l-1.5-10"/>
-  <path d="M7 20h10"/>
-  <path d="M12 10v10"/>
-  <path d="M5 6l2 1"/>
-  <path d="M19 6l-2 1"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Lighthouse body -->
+  <path d="M16 4L16 6" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M14 6h4l1.2 4.5h-6.4L14 6z" stroke="#7c3aed" stroke-width="1.2" fill="none"/>
+  <rect x="13" y="10.5" width="6" height="2" rx="0.5" stroke="#7c3aed" stroke-width="1.2" fill="none"/>
+  <path d="M13.5 12.5l-1.5 12h8l-1.5-12" stroke="#7c3aed" stroke-width="1.2" fill="none"/>
+  <path d="M11 24.5h10" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="16" y1="12.5" x2="16" y2="24.5" stroke="#7c3aed" stroke-width="0.8" opacity="0.5"/>
+  <!-- Light beams -->
+  <path d="M9 7.5l2.5 1" stroke="#7c3aed" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <path d="M23 7.5l-2.5 1" stroke="#7c3aed" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <!-- AI sparkles (4-pointed stars) -->
+  <path d="M6 14l1 2.5L6 19l-1-2.5z" fill="#7c3aed" opacity="0.8"/>
+  <path d="M6 14l2.5 1L6 19l-2.5-1z" fill="#7c3aed" opacity="0.4"/>
+  <path d="M26 12l0.7 1.8L26 15.5l-0.7-1.8z" fill="#7c3aed" opacity="0.8"/>
+  <path d="M26 12l1.8 0.7L26 15.5l-1.8-0.7z" fill="#7c3aed" opacity="0.4"/>
+  <path d="M24 22l0.5 1.2L24 24.5l-0.5-1.2z" fill="#7c3aed" opacity="0.6"/>
+  <path d="M24 22l1.2 0.5L24 24.5l-1.2-0.5z" fill="#7c3aed" opacity="0.3"/>
 </svg>
