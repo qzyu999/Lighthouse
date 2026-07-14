@@ -116,23 +116,23 @@
 
 .activity-btn.active {
     color: #fff;
-    background: rgba(124, 58, 237, 0.15);
+    background: none;
 }
 
 .activity-btn.active:hover {
-    background: rgba(124, 58, 237, 0.15);
+    background: none;
 }
 
 .activity-btn.active::after {
     content: '';
     position: absolute;
-    right: -4px;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 3px;
-    height: 20px;
+    width: 2px;
+    height: 14px;
     background: #7c3aed;
-    border-radius: 3px;
+    border-radius: 2px 0 0 2px;
 }
 
 .activity-bar-spacer {
