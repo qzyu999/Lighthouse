@@ -119,6 +119,10 @@
     background: rgba(124, 58, 237, 0.15);
 }
 
+.activity-btn.active:hover {
+    background: rgba(124, 58, 237, 0.15);
+}
+
 .activity-btn.active::after {
     content: '';
     position: absolute;

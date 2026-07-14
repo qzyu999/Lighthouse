@@ -28,18 +28,19 @@ a {
   transform: translateY(-50%);
   background: #1e1b2e;
   color: #ddd;
-  font-size: 12px;
-  line-height: 1.4;
-  padding: 8px 12px;
+  font-size: 11px;
+  line-height: 1.6;
+  padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  white-space: pre-line;
+  white-space: pre;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.15s;
   z-index: 9999;
-  max-width: 240px;
+  width: max-content;
+  max-width: 280px;
 }
 
 [data-tooltip]:hover::after {
