@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Secrets (never commit API keys)
+secrets/*.txt
+!secrets/.gitkeep
+
+# Private config overlay (enterprise endpoints, credentials)
+config.local.yaml
+backend/content/catalog.local.yaml
+backend/content/*.local.yaml
+
+# Environment files
+backend/.env
+client/.env
+
+# Build output
+client/dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

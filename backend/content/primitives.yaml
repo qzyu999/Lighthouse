@@ -1,0 +1,69 @@
+title: Data Primitives
+subtitle: "Composable data types that define the semantic building blocks of the datalake"
+updated: 2024-07-13
+
+sections:
+  - id: overview
+    heading: Overview
+    content: |
+      Data primitives are the atomic business concepts in the datalake.
+      Each primitive maps a business entity to its physical representation
+      (tables, columns, joins) and includes business rules that govern
+      valid queries.
+
+      The chatbot uses these definitions to:
+      1. Understand what the user is asking about (semantic resolution)
+      2. Generate correct SQL (physical mapping)
+      3. Apply business rules (filters, joins, exclusions)
+
+      Replace this file with your own primitives via config.local.yaml:
+        plugins.wiki.path: "/path/to/your/wiki/content"
+
+  - id: user
+    heading: "Primitive: User"
+    content: "A user in the system with profile attributes."
+    primitive:
+      name: User
+      fields:
+        - { name: id, type: bigint, description: "Unique user identifier" }
+        - { name: email, type: string, description: "User email address" }
+        - { name: name, type: string, description: "Display name" }
+        - { name: role, type: enum, values: ["admin", "viewer", "editor"] }
+      source_table: users
+      database: analytics
+      business_rules:
+        - "Primary key is id"
+        - "Filter by role for access control"
+
+  - id: order
+    heading: "Primitive: Order"
+    content: "A customer order for a product."
+    primitive:
+      name: Order
+      fields:
+        - { name: order_id, type: bigint, description: "Unique order identifier" }
+        - { name: user_id, type: bigint, description: "Ordering user (FK to users)" }
+        - { name: product, type: string, description: "Product name" }
+        - { name: amount, type: decimal, description: "Order total" }
+        - { name: status, type: enum, values: ["pending", "completed", "cancelled"] }
+      source_table: orders
+      database: analytics
+      business_rules:
+        - "Exclude status='cancelled' unless explicitly requested"
+        - "Join to User primitive on user_id for customer details"
+
+  - id: event
+    heading: "Primitive: Event"
+    content: "An application event for analytics and audit trails."
+    primitive:
+      name: Event
+      fields:
+        - { name: event_id, type: bigint, description: "Unique event identifier" }
+        - { name: user_id, type: bigint, description: "User who triggered the event" }
+        - { name: event_type, type: string, description: "Type of event" }
+        - { name: timestamp, type: timestamp, description: "When it happened" }
+      source_table: events
+      database: analytics
+      business_rules:
+        - "Time-bound queries should use timestamp index"
+        - "Group by event_type for usage patterns"

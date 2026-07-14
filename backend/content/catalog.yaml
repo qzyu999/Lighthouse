@@ -1,0 +1,34 @@
+# Static Data Catalog — Example
+# Replace with your actual schema via config.local.yaml override:
+#   plugins.query.catalog_file: "/path/to/your/real/catalog.yaml"
+
+databases:
+  - name: analytics
+    tables:
+      - name: users
+        description: "User profiles and attributes"
+        columns:
+          - { name: id, type: bigint }
+          - { name: email, type: varchar }
+          - { name: name, type: varchar }
+          - { name: role, type: varchar }
+          - { name: created_at, type: timestamp }
+
+      - name: orders
+        description: "Customer orders"
+        columns:
+          - { name: order_id, type: bigint }
+          - { name: user_id, type: bigint }
+          - { name: product, type: varchar }
+          - { name: amount, type: decimal }
+          - { name: status, type: varchar }
+          - { name: order_date, type: timestamp }
+
+      - name: events
+        description: "Application event log"
+        columns:
+          - { name: event_id, type: bigint }
+          - { name: user_id, type: bigint }
+          - { name: event_type, type: varchar }
+          - { name: metadata, type: varchar }
+          - { name: timestamp, type: timestamp }

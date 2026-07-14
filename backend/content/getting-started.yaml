@@ -1,0 +1,26 @@
+title: Getting Started
+subtitle: "Quick guide to setting up Lighthouse with your datalake"
+updated: 2024-07-13
+
+sections:
+  - id: overview
+    heading: Overview
+    content: |
+      Lighthouse is a pluggable AI chatbot for datalake exploration.
+      It connects to any OpenAI-compatible LLM provider and can be
+      extended with wiki and query engine plugins.
+
+  - id: configuration
+    heading: Configuration
+    content: |
+      All configuration is in config.yaml (committed) and config.local.yaml (private).
+      The local file is deep-merged on top of the base config.
+
+  - id: plugins
+    heading: Plugins
+    content: |
+      Lighthouse supports two plugin types:
+      - Wiki: serves documentation pages (filesystem, S3, or custom)
+      - Query: connects to a query engine (Athena, Redshift, or custom)
+
+      Configure in config.yaml under the 'plugins' key.

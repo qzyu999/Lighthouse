@@ -1,0 +1,11 @@
+title: Data Catalog
+subtitle: "Example data catalog — replace with your own"
+updated: 2024-07-13
+
+sections:
+  - id: tables
+    heading: Available Tables
+    content: "Configure the query plugin to auto-discover tables from your Glue catalog or data warehouse."
+    catalog:
+      - { database: "example_db", table: "users", layer: cleansed, format: Parquet }
+      - { database: "example_db", table: "events", layer: cleansed, format: Iceberg }

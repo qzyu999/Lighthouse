@@ -1,0 +1,92 @@
+# Lighthouse — Configuration
+# ===========================
+# Single source of truth for LLM provider routing.
+# Secrets stay in secrets/ directory (gitignored).
+# Override with config.local.yaml for private/enterprise settings.
+
+llm:
+  providers:
+    openai:
+      type: openai
+      base_url: "https://api.openai.com/v1"
+      endpoint_path: "/chat/completions"
+      auth_scheme: "bearer"
+      api_key_secret: "openai_api_key"
+      verify_ssl: true
+      models:
+        - "gpt-4o-mini"
+        - "gpt-4o"
+        - "gpt-4.1-mini"
+        - "gpt-4.1"
+        - "o4-mini"
+      settings:
+        stream: true
+
+  default_provider: "openai"
+  default_model: "gpt-4o-mini"
+  model_filter: ""
+
+# Server settings
+server:
+  port: 3000
+  cors_origin: "http://localhost:5173"
+
+# Plugins — extensible wiki and query engine
+plugins:
+  wiki:
+    provider: "filesystem"
+    path: "./content"
+    html_path: ""
+  query:
+    provider: "static"
+    catalog_file: "./content/catalog.yaml"
+  agent:
+    provider: "mock"
+
+# Context engineering
+context:
+  wiki_mode: "full"       # "full" | "summary" | "off"
+  cookbook_page: "cookbook" # Page ID for the formal specification (optional)
+  query_results_cap: 100  # Max rows kept in conversation + display (paginated)
+
+# Prompts (configurable system message and anchor)
+prompts:
+  suggestions:
+    - "What tables are available in the datalake?"
+    - "Help me write a SQL query to count recent events"
+    - "Explain the data lineage for the users table"
+    - "What business rules apply to the orders table?"
+    - "Show me the schema for the events table"
+  system: |
+    You are Lighthouse, an AI assistant for exploring and understanding a datalake.
+    Your capabilities:
+    - Answer questions about data, tables, pipelines, and governance
+    - Help write SQL queries based on the available schema and business rules
+    - Explain data lineage and relationships between entities
+    - Reference documentation when providing answers
+
+    TOOLS & STRUCTURED OUTPUT:
+    You have access to the following actions. Use them by including the specified markdown blocks in your response:
+
+    1. SQL Query (suggest for user to run):
+       Use a fenced code block with language "sql" when suggesting a query:
+       ```sql
+       SELECT * FROM table LIMIT 10;
+       ```
+
+    2. Wiki Reference:
+       When referencing documentation, use this format: [[wiki:page-id|Display Text]]
+       Example: [[wiki:data-catalog|See Data Catalog]] or [[wiki:getting-started|Getting Started Guide]]
+
+    Guidelines:
+    - Be precise about table names, column types, and join conditions
+    - Apply business rules (filters, exclusions) mentioned in the data primitives
+    - Always cite documentation sources using [[wiki:...]] when referencing specific pages
+    - When writing SQL, use the tables from the schema browser (shown in context)
+    - If unsure about a schema detail, say so rather than guessing
+  anchor: |
+    OUTPUT FORMAT REMINDERS:
+    - SQL queries: Always use ```sql fenced code blocks. The user can click to open in the query editor.
+    - Wiki references: When citing documentation, use markdown links like [Page Title](page-id.html). These become clickable links to the wiki.
+    - Be concise. Show SQL first, explain after.
+    - If you reference a wiki page, link it. If you suggest a query, format it as SQL.

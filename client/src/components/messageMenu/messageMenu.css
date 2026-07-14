@@ -1,0 +1,158 @@
+.message-menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 5px;
+  position: relative;
+  /* Ensure the tooltip is positioned correctly */
+}
+
+.message-menu button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+.message-menu button:hover {
+  background-color: #0056b3;
+}
+
+.message-menu button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100%;
+  /* Position below the button */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 0.9em;
+  z-index: 10;
+  margin-top: 10px;
+  /* Adjust this value to control vertical spacing */
+}
+
+/* Modal styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Background overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.model-options {
+  overflow-y: auto;
+  max-height: 55vh;
+  padding-right: 8px;
+  text-align: left;
+}
+
+.modal-content h3,
+.modal-content h4 {
+  font-weight: bold;
+  /* Ensure consistent heading weight */
+  margin: 5px 0;
+  /* Consistent spacing around headings */
+  font-family: Arial, sans-serif;
+  /* Ensure consistent font family for headings */
+}
+
+.modal-content p {
+  margin: 10px 0;
+  /* Consistent spacing around paragraphs */
+  font-family: Arial, sans-serif;
+  /* Ensure consistent font family for paragraphs */
+}
+
+.model-option {
+  cursor: pointer;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  color: #333;
+  /* Darker text color for model options */
+}
+
+.model-option h4 {
+  font-family: Arial, sans-serif;
+  /* Ensure consistent font family for options */
+  font-size: 14px;
+  /* Define font size explicitly for model option headers */
+  margin-bottom: 5px;
+  /* Ensure consistent margin for model option headers */
+}
+
+.model-option p {
+  font-family: Arial, sans-serif;
+  /* Ensure consistent font family for options */
+  font-size: 13px;
+  /* Define font size explicitly for model option paragraphs */
+}
+
+.model-option:hover {
+  background-color: #f0f0f0;
+  color: #000;
+  /* Slightly darker hover color for better contrast */
+}
+
+.model-option.selected {
+  background-color: #d1e7dd;
+  /* Light green or any color you prefer */
+  border-color: #0f6e40;
+  /* Darker green or any color you prefer */
+}
+
+.close-modal {
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  background-color: #0056b3;
+}
