@@ -7,7 +7,8 @@ import QueryPage from '../../routes/queryPage/QueryPage';
 
 const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activePanel, setActivePanel] = useState('chat'); // 'chat' | 'wiki' | 'query'
+  const [activePanel, setActivePanel] = useState('chat');
+  const [showAbout, setShowAbout] = useState(false); // 'chat' | 'wiki' | 'query'
   const location = useLocation();
   const navigate = useNavigate();
   const wikiRef = useRef(null);
@@ -102,7 +103,57 @@ const DashboardLayout = () => {
               <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4.03 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><circle cx="19" cy="19" r="3"/><line x1="21" y1="21" x2="23" y2="23"/>
             </svg>
           </button>
+          <div className="activity-bar-spacer"></div>
+          <button
+            className="activity-btn activity-btn-info"
+            onClick={() => setShowAbout(true)}
+            title="How Lighthouse works"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          </button>
         </div>
+
+        {showAbout && (
+          <div className="about-overlay" onClick={() => setShowAbout(false)}>
+            <div className="about-modal" onClick={e => e.stopPropagation()}>
+              <div className="about-header">
+                <h2>How Lighthouse Works</h2>
+                <button className="about-close" onClick={() => setShowAbout(false)}>×</button>
+              </div>
+              <div className="about-content">
+                <div className="about-section">
+                  <h3>💬 Chat with Context</h3>
+                  <p>Every message you send is enriched with documentation from the wiki, table schemas, and business rules before reaching the AI. This means the AI understands your data model without you explaining it.</p>
+                </div>
+                <div className="about-section">
+                  <h3>📖 Wiki Integration</h3>
+                  <p>Documentation is compiled at startup and injected into the AI's context. When the AI cites a page, you can click the link to navigate directly to it.</p>
+                </div>
+                <div className="about-section">
+                  <h3>🔍 Query Engine</h3>
+                  <p>SQL suggested by the AI can be opened in the query editor or run directly inline. Results are shared with the AI so you can discuss them.</p>
+                </div>
+                <div className="about-section">
+                  <h3>⚙️ How Context Works</h3>
+                  <p>On every API call, Lighthouse injects a layered system prompt:</p>
+                  <ol>
+                    <li><strong>Identity</strong> — who the AI is and its capabilities</li>
+                    <li><strong>Formal Spec</strong> — data primitives, business rules, axioms</li>
+                    <li><strong>Schema</strong> — available tables and columns</li>
+                    <li><strong>Wiki</strong> — full documentation reference</li>
+                    <li><strong>Anchor</strong> — formatting rules reinforced at the end</li>
+                  </ol>
+                </div>
+                <div className="about-section">
+                  <h3>🔌 Pluggable</h3>
+                  <p>Everything is configurable: LLM provider, wiki source, query engine, and agent delegation. Swap providers without changing code.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   )
 }
