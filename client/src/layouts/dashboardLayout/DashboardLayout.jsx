@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import './dashboardLayout.css'
 import ChatList from '../../components/chatList/ChatList';
 import WikiPage from '../../routes/wikiPage/WikiPage';
@@ -8,7 +8,16 @@ import QueryPage from '../../routes/queryPage/QueryPage';
 const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activePanel, setActivePanel] = useState('chat');
-  const [showAbout, setShowAbout] = useState(false); // 'chat' | 'wiki' | 'query'
+  const [showAbout, setShowAbout] = useState(false);
+  const [contextStats, setContextStats] = useState(null);
+
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_URL || "";
+    fetch(`${API_URL}/api/context-stats`, { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => setContextStats(data))
+      .catch(() => {});
+  }, []); // 'chat' | 'wiki' | 'query'
   const location = useLocation();
   const navigate = useNavigate();
   const wikiRef = useRef(null);
@@ -104,6 +113,18 @@ const DashboardLayout = () => {
             </svg>
           </button>
           <div className="activity-bar-spacer"></div>
+          {contextStats && (
+            <div className="context-indicator" title={`Context: ${contextStats.usagePercent}% of ${contextStats.currentModel} (${contextStats.totalTokens.toLocaleString()} / ${contextStats.modelLimit.toLocaleString()} tokens)`}>
+              <svg width="28" height="28" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3"/>
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#7c3aed" strokeWidth="3"
+                  strokeDasharray={`${contextStats.usagePercent * 0.88} 88`}
+                  strokeLinecap="round"
+                  transform="rotate(-90 18 18)"/>
+              </svg>
+              <span className="context-percent">{contextStats.usagePercent}%</span>
+            </div>
+          )}
           <button
             className="activity-btn activity-btn-info"
             onClick={() => setShowAbout(true)}

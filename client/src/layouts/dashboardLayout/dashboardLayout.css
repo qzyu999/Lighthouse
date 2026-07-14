@@ -135,6 +135,28 @@
     flex: 1;
 }
 
+.context-indicator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    cursor: default;
+    margin-bottom: 4px;
+}
+
+.context-percent {
+    position: absolute;
+    font-size: 8px;
+    font-weight: 600;
+    color: #888;
+}
+
+.context-indicator:hover .context-percent {
+    color: #c084fc;
+}
+
 .activity-btn-info {
     margin-bottom: 12px;
 }

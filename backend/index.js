@@ -375,6 +375,38 @@ app.get("/api/suggestions", (req, res) => {
     res.json({ suggestions });
 });
 
+app.get("/api/context-stats", (req, res) => {
+    const compiled = contextCompiler.compiled || [];
+    const layers = compiled.map(l => ({
+        id: l.id,
+        tokens: Math.round(l.content.length / 4),
+    }));
+    const totalTokens = layers.reduce((sum, l) => sum + l.tokens, 0);
+
+    // Model context limits (approximate)
+    const modelLimits = {
+        'gpt-4o-mini': 128000,
+        'gpt-4o': 128000,
+        'gpt-4.1-mini': 1000000,
+        'gpt-4.1': 1000000,
+        'gpt-5.1': 272000,
+        'gpt-5.1-us-sovereign': 272000,
+        'gpt-5.4': 1050000,
+        'o4-mini': 200000,
+    };
+
+    const currentModel = gatewayConfig?.defaultModel || 'gpt-4o-mini';
+    const modelLimit = modelLimits[currentModel] || 272000;
+
+    res.json({
+        layers,
+        totalTokens,
+        modelLimit,
+        currentModel,
+        usagePercent: Math.round((totalTokens / modelLimit) * 100),
+    });
+});
+
 app.get("/api/models", async (req, res) => {
     if (!gatewayConfig) return res.json({ models: [], default: "" });
 
