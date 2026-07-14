@@ -95,7 +95,6 @@ const ChatList = ({ onCollapse, onNavigate }) => {
       </div>
 
       <nav className="chatList-nav">
-        <Link to='/create-custom-chatbot' className="nav-link">Custom Chatbots</Link>
       </nav>
 
       <div className="chatList-search">

@@ -78,27 +78,6 @@ app.post("/api/chats", async (req, res) => {
     }
 });
 
-app.post("/api/custom-chats", async (req, res) => {
-    const { prompt, model } = req.body;
-    try {
-        if (!prompt || !model) throw new Error('Both prompt and model are required');
-        const initialHistory = [{ role: 'system', parts: [{ text: prompt }] }];
-
-        if (mongoConnected) {
-            const newChat = new Chat({ userId: DEFAULT_USER_ID, history: initialHistory, model, isCustomChatbot: true });
-            const savedChat = await newChat.save();
-            await UserChats.findOneAndUpdate({ userId: DEFAULT_USER_ID }, { $push: { chats: { _id: savedChat._id, title: prompt.substring(0, 40) } } }, { new: true, upsert: true });
-            return res.status(201).json({ id: savedChat._id });
-        }
-        const id = Date.now().toString(36) + Math.random().toString(36).slice(2);
-        memStore.chats.push({ _id: id, userId: DEFAULT_USER_ID, history: initialHistory, model, isCustomChatbot: true });
-        memStore.userChats.push({ _id: id, title: prompt.substring(0, 40) });
-        res.status(201).json({ id });
-    } catch (err) {
-        res.status(500).json({ error: 'Error creating custom chat: ' + err.message });
-    }
-});
-
 app.get('/api/userchats', async (req, res) => {
     try {
         if (mongoConnected) {

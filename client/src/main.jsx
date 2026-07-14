@@ -8,7 +8,6 @@ import ChatPage from './routes/chatPage/ChatPage';
 import RootLayout from './layouts/rootLayout/RootLayout';
 import DashboardLayout from './layouts/dashboardLayout/DashboardLayout';
 import { ModelProvider } from './context/ModelContext';
-import CustomChatbotPage from './routes/customChatbotPage/CustomChatbotPage';
 import WikiPage from './routes/wikiPage/WikiPage';
 
 // Set browser tab title from env
@@ -21,10 +20,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Homepage />,
-      },
-      {
-        path: "/create-custom-chatbot",
-        element: <CustomChatbotPage />,
       },
       {
         element: <DashboardLayout />,
