@@ -71,7 +71,7 @@ const DashboardPage = () => {
       <div className="dashboard-center">
         <div className="dashboard-greeting">
           <h1>
-            <svg className="lighthouse-logo" width="40" height="40" viewBox="0 0 32 32" fill="none">
+            <svg className="lighthouse-logo" width="56" height="56" viewBox="0 0 32 32" fill="none">
               <circle cx="16" cy="10.1" r="1.0" fill="#7C3AED" opacity="0.10"/>
               <path d="M19.6 5.1 C19.98 6.34 20.36 6.72 21.6 7.1 C20.36 7.48 19.98 7.86 19.6 9.1 C19.22 7.86 18.84 7.48 17.6 7.1 C18.84 6.72 19.22 6.34 19.6 5.1Z" stroke="#7C3AED" strokeWidth="0.55" strokeLinejoin="round" strokeLinecap="round" opacity="0.97" fill="none"/>
               <path d="M11.0 7.0 C11.26 7.82 11.54 8.1 12.36 8.36 C11.54 8.62 11.26 8.9 11.0 9.72 C10.74 8.9 10.46 8.62 9.64 8.36 C10.46 8.1 10.74 7.82 11.0 7.0Z" stroke="#7C3AED" strokeWidth="0.5" strokeLinejoin="round" strokeLinecap="round" opacity="0.76" fill="none"/>
