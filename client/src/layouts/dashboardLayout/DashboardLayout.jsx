@@ -4,6 +4,7 @@ import './dashboardLayout.css'
 import ChatList from '../../components/chatList/ChatList';
 import WikiPage from '../../routes/wikiPage/WikiPage';
 import QueryPage from '../../routes/queryPage/QueryPage';
+import { useModel } from '../../context/ModelContext';
 
 const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -11,6 +12,7 @@ const DashboardLayout = () => {
   const [showAbout, setShowAbout] = useState(false);
   const [contextStats, setContextStats] = useState(null);
   const [conversationTokens, setConversationTokens] = useState(0);
+  const { currentModel, getModelLimit } = useModel();
 
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL || "";
@@ -116,10 +118,11 @@ const DashboardLayout = () => {
           <div className="activity-bar-spacer"></div>
           {contextStats && (
             (() => {
+              const modelLimit = getModelLimit() || contextStats.modelLimit || 272000;
               const totalUsed = contextStats.totalTokens + conversationTokens;
-              const pct = Math.min(99, Math.round((totalUsed / contextStats.modelLimit) * 100));
+              const pct = Math.min(99, Math.round((totalUsed / modelLimit) * 100));
               return (
-                <div className="context-indicator" data-tooltip={`Context: ${pct}% used\nSystem: ~${contextStats.totalTokens.toLocaleString()} tokens\nConversation: ~${conversationTokens.toLocaleString()} tokens\nModel: ${contextStats.currentModel}\nLimit: ${contextStats.modelLimit.toLocaleString()} tokens`}>
+                <div className="context-indicator" data-tooltip={`Context: ${pct}% used\nSystem: ~${contextStats.totalTokens.toLocaleString()} tokens\nConversation: ~${conversationTokens.toLocaleString()} tokens\nModel: ${currentModel}\nLimit: ${modelLimit.toLocaleString()} tokens`}>
                   <svg width="28" height="28" viewBox="0 0 36 36">
                     <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3"/>
                     <circle cx="18" cy="18" r="14" fill="none" stroke={pct > 80 ? '#f59e0b' : '#7c3aed'} strokeWidth="3"

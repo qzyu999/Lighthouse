@@ -7,9 +7,9 @@ import { useModel } from '../../context/ModelContext';
 const API_URL = import.meta.env.VITE_API_URL || "";
 
 const ModelMenu = () => {
-    const { currentModel, setCurrentModel } = useModel();
+    const { currentModel, setCurrentModel, setModels } = useModel();
     const [isModalVisible, setModalVisible] = useState(false);
-    const [models, setModels] = useState([]);
+    const [models, setLocalModels] = useState([]);
     const [loading, setLoading] = useState(false);
 
     // Fetch models when modal opens (cached after first load)
@@ -20,18 +20,21 @@ const ModelMenu = () => {
                 .then(res => res.json())
                 .then(data => {
                     const list = data.models || [];
-                    setModels(list);
+                    setLocalModels(list);
+                    setModels(list); // Store in context for other components
                 })
                 .catch(err => {
                     console.error('Failed to fetch models:', err);
                     // Fallback to hardcoded list
-                    setModels([
+                    const fallback = [
                         { id: "gpt-4.1-mini" },
                         { id: "gpt-4o-mini" },
                         { id: "gpt-4o" },
                         { id: "gpt-4.1" },
                         { id: "o4-mini" },
-                    ]);
+                    ];
+                    setLocalModels(fallback);
+                    setModels(fallback);
                 })
                 .finally(() => setLoading(false));
         }
