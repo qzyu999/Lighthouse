@@ -4,31 +4,31 @@ sections:
   - heading: Overview
     content: |
       This catalog describes the sample tables available for querying.
-      The datalake follows a medallion architecture: raw → cleansed → enriched.
+      The datalake follows a medallion architecture: bronze → silver → gold.
 
   - heading: Databases
     catalog:
       - database: sample_analytics
         table: events
-        layer: enriched
+        layer: gold
         format: parquet
         pipeline: batch ETL
         frequency: daily
       - database: sample_analytics
         table: users
-        layer: enriched
+        layer: gold
         format: parquet
         pipeline: batch ETL
         frequency: daily
       - database: sample_analytics
         table: orders
-        layer: enriched
+        layer: gold
         format: parquet
         pipeline: streaming
         frequency: real-time
       - database: sample_analytics
         table: products
-        layer: cleansed
+        layer: silver
         format: parquet
         pipeline: batch ETL
         frequency: weekly

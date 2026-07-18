@@ -10,7 +10,7 @@ sections:
       name: User Events
       database: sample_analytics
       source_table: events
-      publish_target: events_enriched
+      publish_target: events_gold
       fields:
         - name: event_id
           type: varchar
@@ -36,7 +36,7 @@ sections:
       name: Orders
       database: sample_analytics
       source_table: orders
-      publish_target: orders_enriched
+      publish_target: orders_gold
       fields:
         - name: order_id
           type: varchar
