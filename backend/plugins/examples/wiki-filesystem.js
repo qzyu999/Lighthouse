@@ -2,21 +2,61 @@
  * Filesystem Wiki Plugin
  *
  * Reads wiki pages from YAML files on disk.
- * Works with the sor-wiki content format: YAML files with title, sections, tables, etc.
+ * Optionally syncs from a git repository on startup.
  *
  * Config:
- *   path: "./content"   (relative to backend/ or absolute path)
+ *   path: "./content"           (relative to backend/ or absolute path)
+ *   git_repo: "https://..."     (optional — clones/pulls on startup)
+ *   git_branch: "main"          (optional — branch to checkout)
+ *   git_content_path: "content" (optional — subdirectory within repo)
  */
 
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 import { load as yamlLoad } from 'js-yaml';
 import { WikiPlugin } from '../wiki.js';
 
 export class FilesystemWikiPlugin extends WikiPlugin {
     constructor(config) {
         super(config);
+        this.config = config;
         this.basePath = path.resolve(config.path || './content');
+
+        // Sync from git repo if configured
+        if (config.git_repo) {
+            this._syncFromGit(config);
+        }
+    }
+
+    _syncFromGit(config) {
+        const repoUrl = config.git_repo;
+        const branch = config.git_branch || 'main';
+        const contentPath = config.git_content_path || 'content';
+        const cloneDir = path.resolve('.wiki-repo');
+
+        try {
+            if (fs.existsSync(path.join(cloneDir, '.git'))) {
+                // Pull latest
+                console.log(`📖 Wiki: pulling latest from ${repoUrl} (${branch})`);
+                execSync(`git -C "${cloneDir}" pull origin ${branch} --quiet`, { timeout: 30000 });
+            } else {
+                // Clone
+                console.log(`📖 Wiki: cloning ${repoUrl} (${branch})`);
+                execSync(`git clone --branch ${branch} --depth 1 --quiet "${repoUrl}" "${cloneDir}"`, { timeout: 60000 });
+            }
+
+            // Point basePath to the content subdirectory within the cloned repo
+            const repoContentPath = path.join(cloneDir, contentPath);
+            if (fs.existsSync(repoContentPath)) {
+                this.basePath = repoContentPath;
+                console.log(`📖 Wiki: serving from ${repoContentPath}`);
+            } else {
+                console.warn(`⚠️  Wiki: git_content_path "${contentPath}" not found in repo, using default path`);
+            }
+        } catch (err) {
+            console.warn(`⚠️  Wiki: git sync failed (${err.message}), using local content at ${this.basePath}`);
+        }
     }
 
     async list() {
