@@ -1,69 +1,65 @@
 title: Data Primitives
-subtitle: "Composable data types that define the semantic building blocks of the datalake"
-updated: 2024-07-13
-
+subtitle: Business rules and schema contracts for the sample datalake
 sections:
-  - id: overview
-    heading: Overview
+  - heading: Overview
     content: |
-      Data primitives are the atomic business concepts in the datalake.
-      Each primitive maps a business entity to its physical representation
-      (tables, columns, joins) and includes business rules that govern
-      valid queries.
+      These primitives define the operational rules governing the sample analytics tables.
+      Use them when generating SQL or validating data quality.
 
-      The chatbot uses these definitions to:
-      1. Understand what the user is asking about (semantic resolution)
-      2. Generate correct SQL (physical mapping)
-      3. Apply business rules (filters, joins, exclusions)
-
-      Replace this file with your own primitives via config.local.yaml:
-        plugins.wiki.path: "/path/to/your/wiki/content"
-
-  - id: user
-    heading: "Primitive: User"
-    content: "A user in the system with profile attributes."
-    primitive:
-      name: User
-      fields:
-        - { name: id, type: bigint, description: "Unique user identifier" }
-        - { name: email, type: string, description: "User email address" }
-        - { name: name, type: string, description: "Display name" }
-        - { name: role, type: enum, values: ["admin", "viewer", "editor"] }
-      source_table: users
-      database: analytics
-      business_rules:
-        - "Primary key is id"
-        - "Filter by role for access control"
-
-  - id: order
-    heading: "Primitive: Order"
-    content: "A customer order for a product."
-    primitive:
-      name: Order
-      fields:
-        - { name: order_id, type: bigint, description: "Unique order identifier" }
-        - { name: user_id, type: bigint, description: "Ordering user (FK to users)" }
-        - { name: product, type: string, description: "Product name" }
-        - { name: amount, type: decimal, description: "Order total" }
-        - { name: status, type: enum, values: ["pending", "completed", "cancelled"] }
-      source_table: orders
-      database: analytics
-      business_rules:
-        - "Exclude status='cancelled' unless explicitly requested"
-        - "Join to User primitive on user_id for customer details"
-
-  - id: event
-    heading: "Primitive: Event"
-    content: "An application event for analytics and audit trails."
-    primitive:
-      name: Event
-      fields:
-        - { name: event_id, type: bigint, description: "Unique event identifier" }
-        - { name: user_id, type: bigint, description: "User who triggered the event" }
-        - { name: event_type, type: string, description: "Type of event" }
-        - { name: timestamp, type: timestamp, description: "When it happened" }
+  - primitive:
+      name: User Events
+      database: sample_analytics
       source_table: events
-      database: analytics
+      publish_target: events_enriched
+      fields:
+        - name: event_id
+          type: varchar
+          description: Unique event identifier (UUID)
+        - name: user_id
+          type: varchar
+          description: Foreign key to users table
+        - name: event_type
+          type: varchar
+          description: "One of: page_view, click, purchase, signup, logout"
+        - name: timestamp
+          type: timestamp
+          description: When the event occurred (UTC)
+        - name: metadata
+          type: json
+          description: Event-specific payload (varies by event_type)
       business_rules:
-        - "Time-bound queries should use timestamp index"
-        - "Group by event_type for usage patterns"
+        - Events older than 90 days are archived to cold storage
+        - Duplicate event_ids within a 5-minute window are deduplicated
+        - Anonymous events (null user_id) are excluded from user-level aggregations
+
+  - primitive:
+      name: Orders
+      database: sample_analytics
+      source_table: orders
+      publish_target: orders_enriched
+      fields:
+        - name: order_id
+          type: varchar
+          description: Unique order identifier
+        - name: user_id
+          type: varchar
+          description: Foreign key to users table
+        - name: product_id
+          type: varchar
+          description: Foreign key to products table
+        - name: quantity
+          type: integer
+          description: Number of items ordered
+        - name: total
+          type: decimal
+          description: Order total in USD
+        - name: order_date
+          type: date
+          description: Date the order was placed
+        - name: status
+          type: varchar
+          description: "One of: pending, confirmed, shipped, delivered, cancelled"
+      business_rules:
+        - Cancelled orders are excluded from revenue calculations
+        - Orders with status=pending for >7 days are flagged for review
+        - Refunded orders retain original total but get status=cancelled

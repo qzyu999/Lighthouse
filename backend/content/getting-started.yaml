@@ -1,26 +1,34 @@
-title: Getting Started
-subtitle: "Quick guide to setting up Lighthouse with your datalake"
-updated: 2024-07-13
-
+title: Getting Started with Lighthouse
+subtitle: A guide to exploring your datalake with AI
 sections:
-  - id: overview
-    heading: Overview
+  - heading: What is Lighthouse?
     content: |
-      Lighthouse is a pluggable AI chatbot for datalake exploration.
-      It connects to any OpenAI-compatible LLM provider and can be
-      extended with wiki and query engine plugins.
+      Lighthouse is an AI-powered chatbot for exploring and understanding your datalake.
+      It connects to any OpenAI-compatible LLM provider and enriches every conversation
+      with documentation, table schemas, and business rules from your wiki.
 
-  - id: configuration
-    heading: Configuration
+  - heading: Key Features
     content: |
-      All configuration is in config.yaml (committed) and config.local.yaml (private).
-      The local file is deep-merged on top of the base config.
+      - Chat with AI about your data (tables, pipelines, governance)
+      - Write SQL queries with AI assistance and run them inline
+      - Browse documentation in the integrated wiki viewer
+      - Investigation mode for multi-step data analysis
+      - All context is injected automatically — the AI knows your schema
 
-  - id: plugins
-    heading: Plugins
+  - heading: How It Works
     content: |
-      Lighthouse supports two plugin types:
-      - Wiki: serves documentation pages (filesystem, S3, or custom)
-      - Query: connects to a query engine (Athena, Redshift, or custom)
+      When you send a message, Lighthouse injects a layered system prompt:
+      1. Identity — who the AI is and its capabilities
+      2. Formal Spec — data primitives and business rules
+      3. Schema — available tables and columns
+      4. Wiki — full documentation reference
+      5. Anchor — formatting rules (hidden from user)
 
-      Configure in config.yaml under the 'plugins' key.
+      This means the AI understands your data model without you explaining it every time.
+
+  - heading: Quick Start
+    content: |
+      1. Ask a question about your data: "What tables are available?"
+      2. Request a SQL query: "Write a query to count events by month"
+      3. Browse the wiki for documentation on specific topics
+      4. Use Investigation mode for complex multi-step analysis

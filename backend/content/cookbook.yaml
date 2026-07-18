@@ -1,0 +1,72 @@
+title: Analytics Cookbook
+subtitle: Common patterns and best practices for querying the sample datalake
+sections:
+  - heading: Purpose
+    content: |
+      This cookbook provides standard query patterns for the sample analytics tables.
+      Follow these patterns to ensure consistent, correct results.
+
+  - heading: Monthly Active Users
+    content: |
+      Count distinct users with at least one event per month:
+      ```sql
+      SELECT
+        date_trunc('month', timestamp) AS month,
+        COUNT(DISTINCT user_id) AS active_users
+      FROM sample_analytics.events
+      WHERE event_type != 'logout'
+        AND user_id IS NOT NULL
+      GROUP BY 1
+      ORDER BY 1;
+      ```
+      Note: Excludes anonymous events per business rule.
+
+  - heading: Revenue by Category
+    content: |
+      Calculate total revenue per product category (excludes cancelled):
+      ```sql
+      SELECT
+        p.category,
+        SUM(o.total) AS revenue,
+        COUNT(DISTINCT o.order_id) AS order_count
+      FROM sample_analytics.orders o
+      JOIN sample_analytics.products p ON o.product_id = p.product_id
+      WHERE o.status != 'cancelled'
+      GROUP BY 1
+      ORDER BY 2 DESC;
+      ```
+
+  - heading: User Retention Cohort
+    content: |
+      Week-over-week retention for signup cohorts:
+      ```sql
+      WITH cohorts AS (
+        SELECT user_id, date_trunc('week', signup_date) AS cohort_week
+        FROM sample_analytics.users
+      ),
+      activity AS (
+        SELECT user_id, date_trunc('week', timestamp) AS activity_week
+        FROM sample_analytics.events
+        WHERE user_id IS NOT NULL
+      )
+      SELECT
+        c.cohort_week,
+        a.activity_week,
+        COUNT(DISTINCT a.user_id) AS active_users
+      FROM cohorts c
+      JOIN activity a ON c.user_id = a.user_id
+      GROUP BY 1, 2
+      ORDER BY 1, 2;
+      ```
+
+  - heading: Event Funnel Analysis
+    content: |
+      Track conversion through page_view → click → purchase:
+      ```sql
+      SELECT
+        COUNT(DISTINCT CASE WHEN event_type = 'page_view' THEN user_id END) AS viewed,
+        COUNT(DISTINCT CASE WHEN event_type = 'click' THEN user_id END) AS clicked,
+        COUNT(DISTINCT CASE WHEN event_type = 'purchase' THEN user_id END) AS purchased
+      FROM sample_analytics.events
+      WHERE timestamp >= current_date - interval '30 days';
+      ```
